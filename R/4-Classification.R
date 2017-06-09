@@ -1,13 +1,26 @@
 library(ISLR)
 
-names(Smarket)
+# Logistic Regression example on `Default` credit card data
+str(Default)
+?Default
+
+balance_default <- glm(default ~ balance, data = Default, family="binomial")
+summary(balance_default)
+
+student_default <- glm(default ~ student, data = Default, family="binomial")
+summary(student_default)
+
+# Logistic regression on `Smarket` stock market data
+str(Smarket)
 summary(Smarket)
 ?Smarket
-pairs(Smarket,col=Smarket$Direction)
 
-# Logistic regression
-  glm.fit <- glm(Direction~Lag1+Lag2+Lag3+Lag4+Lag5+Volume,
-            data=Smarket,family=binomial)
+pairs(Smarket, col=Smarket$Direction)
+
+
+glm.fit <- glm(Direction ~ Lag1 + Lag2 + Lag3 + Lag4 + Lag5 + Volume,
+               data = Smarket, family = binomial)
+
 summary(glm.fit)
 
 glm.probs <- predict(glm.fit, type="response") 
@@ -20,8 +33,8 @@ mean(glm.pred==Smarket$Direction)
 
 # Make training and test set
   train <- Year<2005
-glm.fit <- glm(Direction~Lag1+Lag2+Lag3+Lag4+Lag5+Volume,
-            data=Smarket, family=binomial, subset=train)
+glm.fit <- glm(Direction ~ Lag1 + Lag2 + Lag3 + Lag4 + Lag5 + Volume,
+               data=Smarket, family=binomial, subset=train)
 
      glm.probs <- predict(glm.fit, newdata=Smarket[!train, ], type = "response") 
      glm.pred  <- ifelse(glm.probs > 0.5, "Up", "Down")
