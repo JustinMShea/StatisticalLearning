@@ -23,7 +23,7 @@ glm.fit <- glm(Direction ~ Lag1 + Lag2 + Lag3 + Lag4 + Lag5 + Volume,
 
 summary(glm.fit)
 
-glm.probs <- predict(glm.fit, type="response") 
+glm.probs <- predict(glm.fit, type = "response") 
 glm.probs[1:5]
 
 glm.pred <- ifelse(glm.probs > 0.5, "Up", "Down")
@@ -32,7 +32,8 @@ table(glm.pred, Smarket$Direction)
 mean(glm.pred==Smarket$Direction)
 
 # Make training and test set
-  train <- Year<2005
+  train <- Smarket$Year < 2005
+  
 glm.fit <- glm(Direction ~ Lag1 + Lag2 + Lag3 + Lag4 + Lag5 + Volume,
                data=Smarket, family=binomial, subset=train)
 
@@ -51,10 +52,13 @@ glm.probs <- predict(glm.fit, newdata=Smarket[!train, ], type = "response")
 
 table(glm.pred, Direction.2005)
 mean(glm.pred==Direction.2005)
+
 106/(76+106)
 
-library(MASS)
+predict(glm.fit,newdata=data.frame(Lag1=c(1.2,1.5),Lag2=c(1.1,-0.8)),type="response")
+
 ## Linear Discriminant Analysis
+library(MASS)
 lda.fit <- lda(Direction~Lag1+Lag2, data=Smarket, subset = Year<2005)
 lda.fit
 plot(lda.fit)
@@ -67,6 +71,16 @@ data.frame(lda.pred)[1:5,]
 table(lda.pred$class, Smarket.2005$Direction)
 mean(lda.pred$class==Smarket.2005$Direction)
 
+
+# Quadratic Discriminant Analysis
+qda.fit <- qda(Direction ~ Lag1 + Lag2, data = Smarket, subset = train)
+qda.fit
+
+qda.class <- predict(qda.fit, Smarket.2005)$class
+
+table(qda.class, Direction.2005)
+mean(qda.class==Direction.2005)
+
 ## K-Nearest Neighbors
 library(class)
 ?knn
@@ -76,3 +90,7 @@ train <- Year<2005
 knn.pred <- knn(Xlag[train,], Xlag[!train,], Direction[train], k=1)
 table(knn.pred, Direction[!train])
 mean(knn.pred==Direction[!train])
+
+# LDA Iris
+data(iris)
+str(iris)
