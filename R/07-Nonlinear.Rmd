@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 Nonlinear Models
 ========================================================
 Here we explore the use of nonlinear models using some tools in R

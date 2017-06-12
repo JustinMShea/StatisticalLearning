@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 Principal Components
 ====================
 We will use the `USArrests` data (which is in R)

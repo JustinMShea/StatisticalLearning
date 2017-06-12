@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 SVM
 ========================================================
 To demonstrate the SVM, it is easiest to work in low dimensions, so we can see the data.
