@@ -1,37 +1,73 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+
+Classification
+==============
+
+##Logistic Regression 
+
+Example on `Default` credit card data
+
+```{r}
 library(ISLR)
-
-# Logistic Regression example on `Default` credit card data
 str(Default)
-?Default
+```
 
+```
+?Default
+```
+
+```{r}
 balance_default <- glm(default ~ balance, data = Default, family="binomial")
 summary(balance_default)
+```
 
+```{r}
 student_default <- glm(default ~ student, data = Default, family="binomial")
 summary(student_default)
+```
 
-# Logistic regression on `Smarket` stock market data
+Example on `Smarket` stock market data
+
+```
+?Smarket
+```
+
+```{r}
 str(Smarket)
 summary(Smarket)
-?Smarket
+```
 
+
+```{r}
 pairs(Smarket, col=Smarket$Direction)
+```
 
-
+```{r}
 glm.fit <- glm(Direction ~ Lag1 + Lag2 + Lag3 + Lag4 + Lag5 + Volume,
                data = Smarket, family = binomial)
 
 summary(glm.fit)
+```
 
+```{r}
 glm.probs <- predict(glm.fit, type = "response") 
 glm.probs[1:5]
+```
 
+```{r}
 glm.pred <- ifelse(glm.probs > 0.5, "Up", "Down")
 
 table(glm.pred, Smarket$Direction)
 mean(glm.pred==Smarket$Direction)
+```
 
-# Make training and test set
+#### Make training and test set
+
+```{r}
   train <- Smarket$Year < 2005
   
 glm.fit <- glm(Direction ~ Lag1 + Lag2 + Lag3 + Lag4 + Lag5 + Volume,
@@ -40,57 +76,87 @@ glm.fit <- glm(Direction ~ Lag1 + Lag2 + Lag3 + Lag4 + Lag5 + Volume,
      glm.probs <- predict(glm.fit, newdata=Smarket[!train, ], type = "response") 
      glm.pred  <- ifelse(glm.probs > 0.5, "Up", "Down")
 Direction.2005 <- Smarket$Direction[!train]
+```
 
+```{r}
 table(glm.pred, Direction.2005)
 mean(glm.pred==Direction.2005)
+```
 
-#Fit smaller model
+####Fit smaller model
+```{r}
   glm.fit <- glm(Direction~Lag1+Lag2, data=Smarket, 
                  family=binomial, subset=train)
 glm.probs <- predict(glm.fit, newdata=Smarket[!train, ], type = "response") 
  glm.pred <- ifelse(glm.probs > 0.5, "Up", "Down")
+```
 
+```{r}
 table(glm.pred, Direction.2005)
 mean(glm.pred==Direction.2005)
 
 106/(76+106)
+```
 
+```{r}
 predict(glm.fit,newdata=data.frame(Lag1=c(1.2,1.5),Lag2=c(1.1,-0.8)),type="response")
+```
 
 ## Linear Discriminant Analysis
+
+```{r}
 library(MASS)
 lda.fit <- lda(Direction~Lag1+Lag2, data=Smarket, subset = Year<2005)
 lda.fit
 plot(lda.fit)
+```
 
+
+```{r}
 Smarket.2005 <- subset(Smarket, Year==2005)
 lda.pred <- predict(lda.fit, Smarket.2005)
-lda.pred[1:5,]
 class(lda.pred)
 data.frame(lda.pred)[1:5,]
+```
+
+```{r}
 table(lda.pred$class, Smarket.2005$Direction)
 mean(lda.pred$class==Smarket.2005$Direction)
-
+```
 
 # Quadratic Discriminant Analysis
+
+```{r}
 qda.fit <- qda(Direction ~ Lag1 + Lag2, data = Smarket, subset = train)
 qda.fit
+```
 
+```{r}
 qda.class <- predict(qda.fit, Smarket.2005)$class
 
 table(qda.class, Direction.2005)
 mean(qda.class==Direction.2005)
+```
 
-## K-Nearest Neighbors
+# K-Nearest Neighbors
+
+```{r}
 library(class)
+```
+
+```
 ?knn
+```
+
+```{r}
 attach(Smarket)
 Xlag <- cbind(Lag1,Lag2)
 train <- Year<2005
 knn.pred <- knn(Xlag[train,], Xlag[!train,], Direction[train], k=1)
+```
+
+```{r}
 table(knn.pred, Direction[!train])
 mean(knn.pred==Direction[!train])
+```
 
-# LDA Iris
-data(iris)
-str(iris)
