@@ -6,7 +6,7 @@ R work following chapters in the course text "An Introduction to Statistical Lea
 
 [.R files](https://github.com/JustinMShea/Statistical-Learning/tree/master/R)
 
-## Linear Regression
+## [Linear Regression](https://github.com/JustinMShea/Statistical-Learning/blob/master/R/03-LinearRegression.pdf)
 
 3.1 Libraries 
 
@@ -36,7 +36,7 @@ R work following chapters in the course text "An Introduction to Statistical Lea
 
 4.6 An Application to Caravan Insurance Data
 
-## Cross-Validation and the Bootstrap  
+## [Cross-Validation and the Bootstrap](https://github.com/JustinMShea/Statistical-Learning/blob/master/R/05-CV-Resampling-Methods.pdf)
 
 5.1 The Validation Set Approach
 
