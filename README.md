@@ -44,7 +44,7 @@ R work following chapters in the course text "An Introduction to Statistical Lea
 5.4 The Bootstrap
 
 
-## Lab 1: Subset Selection Methods  
+## [Subset Selection Methods](https://github.com/JustinMShea/Statistical-Learning/blob/master/R/06-Model-Selection.pdf)
 
 6.1 Best Subset Selection 
 
