@@ -20,21 +20,18 @@ R work following chapters in the course text "An Introduction to Statistical Lea
 
 3.6 Qualitative Predictors
 
-3.7 Writing Functions
+3.7 Writing functions combining modeling and plotting.
 
-## Logistic Regression, LDA, QDA, and KNN 
+## [Classification](https://github.com/JustinMShea/Statistical-Learning/blob/master/R/04-Classification.pdf)
 
-4.1 The Stock Market Data 
+4.1 Logistic Regression 
 
-4.2 Logistic Regression 
+4.2 Linear Discriminant Analysis
 
-4.3 Linear Discriminant Analysis
+4.3 Quadratic Discriminant Analysis
 
-4.4 Quadratic Discriminant Analysis
+4.4 K-Nearest Neighbors
 
-4.5 K-Nearest Neighbors
-
-4.6 An Application to Caravan Insurance Data
 
 ## [Cross-Validation and the Bootstrap](https://github.com/JustinMShea/Statistical-Learning/blob/master/R/05-CV-Resampling-Methods.pdf)
 
@@ -45,5 +42,20 @@ R work following chapters in the course text "An Introduction to Statistical Lea
 5.3 k-Fold Cross-Validation
 
 5.4 The Bootstrap
+
+
+## Lab 1: Subset Selection Methods  
+
+6.1 Best Subset Selection 
+
+6.2 Forward and Backward Stepwise Selection  
+
+6.3 Model Selecton Using a Validation Set
+
+6.4 Model Selection by Cross-Validation
+
+6.5 Ridge Regression and the Lasso
+
+
 
 
