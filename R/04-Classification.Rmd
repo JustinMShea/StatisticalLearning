@@ -1,4 +1,7 @@
 ---
+title: "ISLR: Classification"
+author: "Justin M Shea"
+date: ''
 output:
   pdf_document: default
   html_document: default
