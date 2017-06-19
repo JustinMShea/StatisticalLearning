@@ -202,10 +202,14 @@ beta_hat <- function(data, index, formula){
         
                model <- lm(formula, data = data[index, ])
         
-        summary(model)$coefficients[,1][[2]]
+        summary(model)$coefficients[,2][[2]]
 }
 
-boot(data = Xy, statistic = beta_hat, R = 100000, formula = y~X1+X2, parallel = "snow", ncpus = 4)
+boot_model_51 <- boot(data = Xy, statistic = beta_hat, R = 1000, formula = y~X1+X2, parallel = "snow", ncpus = 4)
+
+boot_model_51
+
+boot_model_51$t0 + 2*0.00076
 ```
 
 ## 5.R.R4
