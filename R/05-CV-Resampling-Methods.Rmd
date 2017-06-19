@@ -1,7 +1,7 @@
 ---
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 
 Resampling Methods
@@ -160,7 +160,7 @@ alpha2 <- function(data, index){
 alpha2(Portfolio, 1:100)
 
 set.seed(1)
-alpha2(Portfolio,sample(1:100, 100, replace = TRUE))
+alpha2(Portfolio, sample(1:100, 100, replace = TRUE))
 
 boot.out <- boot(Portfolio, alpha2, R = 1000)
 
@@ -171,3 +171,51 @@ Finally, plot the bootstrap model object.
 ```{r}
 plot(boot.out)
 ```
+
+## 5.R.R1
+
+Download the file 5.R.RData and load it into R using `load("5.R.RData")`. Consider the linear regression model of y on X1 and X2. What is the standard error for $\beta_1$?
+
+```{r}
+load(path.expand("~/R/Statistical-Learning/data/5.R.RData"))
+
+model_51 <- lm(y ~ X1 + X2, data = Xy)
+
+summary(model_51)
+```
+
+## 5.R.R2
+
+Next, plot the data using `matplot(Xy, type="l")`. Which of the following do you think is most likely given what you see?
+
+```{r}
+matplot(Xy, type="l")
+```
+
+5.R.R3
+
+Now, use the (standard) bootstrap to estimate s.e.($\hat\beta_{1}$). 
+To within 10%, what do you get?
+
+```{r}
+beta_hat <- function(data, index, formula){
+        
+               model <- lm(formula, data = data[index, ])
+        
+        summary(model)$coefficients[,1][[2]]
+}
+
+boot(data = Xy, statistic = beta_hat, R = 100000, formula = y~X1+X2, parallel = "snow", ncpus = 4)
+```
+
+## 5.R.R4
+
+
+Finally, use the block bootstrap to estimate s.e.($\hat\beta_1$). Use blocks of 100 contiguous observations, and resample ten whole blocks with replacement then paste them together to construct each bootstrap time series. For example, one of your bootstrap resamples could be:
+
+```{r}
+new.rows = c(101:200, 401:500, 101:200, 901:1000, 301:400, 1:100, 1:100, 801:900, 201:300, 701:800)
+
+new.Xy = Xy[new.rows, ]
+```
+
