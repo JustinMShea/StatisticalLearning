@@ -1,15 +1,16 @@
 ---
+title: "Model Selection"
+author: "Justin M Shea"
+date: ''
 output:
   pdf_document: default
   html_document: default
 ---
-Model Selection
-================
 
 
 ```{r}
 library(ISLR)
-summary(Hitters)
+str(Hitters)
 ```
 
 There are some missing values here, so before we proceed we will remove them:
@@ -19,10 +20,8 @@ Hitters <- na.omit(Hitters)
 with(Hitters,sum(is.na(Salary)))
 ```
 
+## Best Subset regression
 
-
-Best Subset regression
-------------------------
 We will now use the package `leaps` to evaluate all the best-subset models.
 ```{r}
 library(leaps)
@@ -50,8 +49,8 @@ coef(regfit.full,10)
 
 
 
-Forward Stepwise Selection
---------------------------
+## Forward Stepwise Selection
+
 Here we use the `regsubsets` function but specify the `method="forward" option:
 
 ```{r}
@@ -60,10 +59,9 @@ summary(regfit.fwd)
 plot(regfit.fwd,scale="Cp")
 ```
 
-Model Selection Using a Validation Set
----------------------------------------
-Lets make a training and validation set, so that we can choose a good subset model.
-We will do it using a slightly different approach from what was done in the the book.
+## Model Selection Using a Validation Set
+
+Lets make a training and validation set, so that we can choose a good subset model. We will do it using a slightly different approach from what was done in the the book.
 
 ```{r}
 dim(Hitters)
@@ -103,8 +101,8 @@ predict.regsubsets <- function(object,newdata,id,...){
 ```
 
 
-Model Selection by Cross-Validation
------------------------------------
+## Model Selection by Cross-Validation
+ 
 
 We will do 10-fold cross-validation. Its really easy!
 ```{r}
@@ -129,8 +127,8 @@ plot(rmse.cv,pch=19,type="b")
 ```
 
 
-Ridge Regression and the Lasso
--------------------------------
+## Ridge Regression and the Lasso
+ 
 We will use the package `glmnet`, which does not use the model formula language, so we will set up an `x` and `y`.
 
 ```{r}
