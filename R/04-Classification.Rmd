@@ -7,159 +7,193 @@ output:
   html_document: default
 ---
 
-Classification
-==============
+## Logistic Regression: Stock Market
 
-##Logistic Regression 
-
-Example on `Default` credit card data
+For this example, we use the `Smarket` stock market data from the `ISLR` package. As usual, lets load the library, data, and call a few common commands 
+to get familiar with the data
 
 ```{r}
 library(ISLR)
-str(Default)
+data(Smarket)
 ```
-
-```
-?Default
-```
-
-```{r}
-balance_default <- glm(default ~ balance, data = Default, family="binomial")
-summary(balance_default)
-```
-
-```{r}
-student_default <- glm(default ~ student, data = Default, family="binomial")
-summary(student_default)
-```
-
-Example on `Smarket` stock market data
 
 ```
 ?Smarket
 ```
 
 ```{r}
-str(Smarket)
-summary(Smarket)
+head(Smarket)
 ```
 
+Lets make a plot with the `pairs` function.
 
 ```{r}
-pairs(Smarket, col=Smarket$Direction)
+pairs(Smarket, col = Smarket$Direction)
 ```
 
+Since we are interested in classification, we will use the `glm` function on the specified model in a similar fashion to regression. However, lets set the family argument to "`binomial`" to run the logistic regression.
+
 ```{r}
-glm.fit <- glm(Direction ~ Lag1 + Lag2 + Lag3 + Lag4 + Lag5 + Volume,
+smarket_logistic <- glm(Direction ~ Lag1 + Lag2 + Lag3 + Lag4 + Lag5 + Volume,
                data = Smarket, family = binomial)
 
-summary(glm.fit)
+summary(smarket_logistic)
 ```
 
+Next, lets pass the `smarket_logistic` model to the `predict` function, and define the argument type as `response`. This will turn give us a vector of probabilities. We can view the first 5 and we see that basically, its about a 50/50 chance of 
 ```{r}
-glm.probs <- predict(glm.fit, type = "response") 
-glm.probs[1:5]
+logistic_probs <- predict(smarket_logistic, type = "response") 
+
+logistic_probs[1:5]
 ```
 
+We can turn these probabilities into classification by setting a threshold at 0.50 or 50%.
+the `ifelse` function is helpful for performing the classification and the `table` function for displaying the results.
 ```{r}
-glm.pred <- ifelse(glm.probs > 0.5, "Up", "Down")
+logistic_pred <- ifelse(logistic_probs > 0.5, "Up", "Down")
 
-table(glm.pred, Smarket$Direction)
-mean(glm.pred==Smarket$Direction)
+table(logistic_pred, Smarket$Direction)
+
+mean(logistic_pred==Smarket$Direction)
 ```
 
-#### Make training and test set
+### Make training and test set
+
+While that was interesting, we used all the data available so we've probably over-fit the model. Lets subset the data to `train` the `logistic_probs` model on the data prior to 2005, and then run then test it on the data after 2005. We can do this be creating a logical index to identify values prior to 2005, and then use that index to subset the `Smarket` data.frame. Note, the `glm` function has a `subset` argument which you can use to directly pass the index to.
+
 
 ```{r}
-  train <- Smarket$Year < 2005
+train <- Smarket$Year < 2005
   
-glm.fit <- glm(Direction ~ Lag1 + Lag2 + Lag3 + Lag4 + Lag5 + Volume,
-               data=Smarket, family=binomial, subset=train)
+smarket_logistic <- glm(Direction ~ Lag1 + Lag2 + Lag3 + Lag4 + Lag5 + Volume,
+                        data = Smarket, family = binomial, subset = train)
+```
 
-     glm.probs <- predict(glm.fit, newdata=Smarket[!train, ], type = "response") 
-     glm.pred  <- ifelse(glm.probs > 0.5, "Up", "Down")
-Direction.2005 <- Smarket$Direction[!train]
+The `predict` function does not have the subset argument, so one must the `!` logical negation operator within the `Smarket` data.frame extraction brackets to indicate an interest in returning values which are the opposite of the index provided. In other words, use the `logistic_probs` model to make predictions on data after 2005. 
+
+```{r}
+     logistic_probs <- predict(smarket_logistic, newdata = Smarket[!train,], type="response")
+```
+
+Finally, classify probabilities as either "Up" and "Down" and call the `table` function to create a confusion matrix as well as the `mean` function.
+
+```{r}
+     logistic_pred  <- ifelse(logistic_probs > 0.5, "Up", "Down")
+     
+     Direction_2005 <- Smarket$Direction[!train]
+
+     table(logistic_pred, Direction_2005)
+
+     mean(logistic_pred == Direction_2005)
+```
+
+### Fit smaller model
+
+Repeat the process with just `Lag1` and `Lag2` variables.
+
+```{r}
+smarket_logistic <- glm(Direction~Lag1+Lag2, data=Smarket, family=binomial, subset=train)
+
+  logistic_probs <- predict(smarket_logistic, newdata=Smarket[!train, ], type = "response") 
+ 
+   logistic_pred <- ifelse(logistic_probs > 0.5, "Up", "Down")
 ```
 
 ```{r}
-table(glm.pred, Direction.2005)
-mean(glm.pred==Direction.2005)
-```
+mean(logistic_pred == Direction_2005)
 
-####Fit smaller model
-```{r}
-  glm.fit <- glm(Direction~Lag1+Lag2, data=Smarket, 
-                 family=binomial, subset=train)
-glm.probs <- predict(glm.fit, newdata=Smarket[!train, ], type = "response") 
- glm.pred <- ifelse(glm.probs > 0.5, "Up", "Down")
+class_table <- table(logistic_pred, Direction_2005)
+
+class_table
+
+class_table[4]/sum(class_table[2,])
 ```
 
 ```{r}
-table(glm.pred, Direction.2005)
-mean(glm.pred==Direction.2005)
-
-106/(76+106)
-```
-
-```{r}
-predict(glm.fit,newdata=data.frame(Lag1=c(1.2,1.5),Lag2=c(1.1,-0.8)),type="response")
+predict(smarket_logistic, newdata=data.frame(Lag1=c(1.2,1.5), Lag2=c(1.1,-0.8)), type="response")
 ```
 
 ## Linear Discriminant Analysis
 
+Lets load Ripley's `MASS` package
 ```{r}
 library(MASS)
-lda.fit <- lda(Direction~Lag1+Lag2, data=Smarket, subset = Year<2005)
-lda.fit
-plot(lda.fit)
+data(Smarket)
 ```
 
+Again, we are going to try and predict the `Smarket` data by using the returns of the last two days on all data prior to 2005.
+```{r}
+train <- Smarket$Year < 2005
+
+lda_Smarket <- lda(Direction ~ Lag1 + Lag2, data = Smarket, subset = train)
+
+lda_Smarket
+
+plot(lda_Smarket)
+```
+
+So lets see how we predict on year 2005 and the first 5 items of the prediction.
 
 ```{r}
-Smarket.2005 <- subset(Smarket, Year==2005)
-lda.pred <- predict(lda.fit, Smarket.2005)
-class(lda.pred)
-data.frame(lda.pred)[1:5,]
+Smarket2005 <- subset(Smarket, Year==2005)
+
+lda_pred <- predict(lda_Smarket, Smarket2005)
+
+class(lda_pred)
+
+data.frame(lda_pred)[1:5,]
 ```
+
+We are interested in the `class` column, which is short for classification so lets create a confusion matrix with that. Linear Discriminant Analysis gives us a little bit better results than the logistic regression.
 
 ```{r}
-table(lda.pred$class, Smarket.2005$Direction)
-mean(lda.pred$class==Smarket.2005$Direction)
+table(lda_pred$class, Smarket2005$Direction)
+
+mean(lda_pred$class==Smarket2005$Direction)
 ```
 
-# Quadratic Discriminant Analysis
+## Quadratic Discriminant Analysis
+
+And QDA performs both LDA, and logistic regression.
 
 ```{r}
 qda.fit <- qda(Direction ~ Lag1 + Lag2, data = Smarket, subset = train)
+
 qda.fit
-```
 
-```{r}
-qda.class <- predict(qda.fit, Smarket.2005)$class
+qda.class <- predict(qda.fit, Smarket2005)$class
 
-table(qda.class, Direction.2005)
-mean(qda.class==Direction.2005)
+table(qda.class, Direction_2005)
+mean(qda.class==Direction_2005)
 ```
 
 # K-Nearest Neighbors
+
+A simple, but very effective classifcation tool, we are going to use the `class` package to run k-nearest neighbors on the `Smarket` data.
 
 ```{r}
 library(class)
 ```
 
+As usual, check out the documentation.
 ```
 ?knn
 ```
 
-```{r}
-attach(Smarket)
-Xlag <- cbind(Lag1,Lag2)
-train <- Year<2005
-knn.pred <- knn(Xlag[train,], Xlag[!train,], Direction[train], k=1)
-```
+First, lets create a matrix, `Xlag` of the first and second lags of the Smarket returns and also define our `train` set. Pass them both to the `knn` function setting the `k` as 3 for the number of neighbors considered.
 
 ```{r}
-table(knn.pred, Direction[!train])
-mean(knn.pred==Direction[!train])
+Xlag <- cbind(Smarket$Lag1, Smarket$Lag2)
+
+train <- Smarket$Year < 2005
+
+knn_pred <- knn(train = Xlag[train,], test = Xlag[!train,], 
+                cl = Smarket$Direction[train], k = 3)
+```
+
+Produce the confusion Matrix.
+```{r}
+table(knn_pred, Smarket$Direction[!train])
+mean(knn_pred == Smarket$Direction[!train])
 ```
 
