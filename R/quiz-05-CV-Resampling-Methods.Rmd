@@ -41,7 +41,7 @@ matplot(Xy, type="l")
 Now, use the (standard) bootstrap to estimate s.e.($\hat\beta_{1}$). 
 To within 10%, what do you get?
 
-```{r, tidy=TRUE}
+```{r, tidy=TRUE, warning=FALSE}
 beta_hat_1 <- function(data, index, formula){
         
                model <- lm(formula, data = data[index, ])
@@ -64,7 +64,7 @@ boot_model_51
 
 Finally, use the block bootstrap to estimate s.e.($\hat\beta_1$). Use blocks of 100 contiguous observations, and resample ten whole blocks with replacement then paste them together to construct each bootstrap time series. For example, one of your bootstrap resamples could be:
 
-```{r, tidy = TRUE}
+```{r, tidy=TRUE, warning=FALSE}
 
 block_boot_model_51 <- tsboot(Xy, beta_hat_1, formula = y~X1+X2, R = 15000, 
                               sim = "fixed", l = 100, parallel = "snow", ncpus = 4)
