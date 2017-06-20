@@ -8,19 +8,17 @@ R work following chapters in the course text "An Introduction to Statistical Lea
 
 ## [Linear Regression](https://github.com/JustinMShea/Statistical-Learning/blob/master/R/03-LinearRegression.pdf)
 
-3.1 Libraries 
+3.1 Simple Linear Regression 
 
-3.2 Simple Linear Regression 
+3.2 Multiple Linear Regression
 
-3.3 Multiple Linear Regression
+3.3 Interaction Terms
 
-3.4 Interaction Terms
+3.4 Non-linear Transformations of the Predictors
 
-3.5 Non-linear Transformations of the Predictors
+3.5 Qualitative Predictors
 
-3.6 Qualitative Predictors
-
-3.7 Writing functions combining modeling and plotting.
+3.6 Writing functions combining modeling and plotting.
 
 ## [Classification](https://github.com/JustinMShea/Statistical-Learning/blob/master/R/04-Classification.pdf)
 
