@@ -7,13 +7,25 @@ output:
   html_document: default
 ---
 
-
+Load the `ISLR` package and check the the `Hitters` data.
 ```{r}
 library(ISLR)
+data(Hitters)
+```
+```{r, eval=FALSE}
+?Hitters
+```
+```{r}
 str(Hitters)
 ```
 
-There are some missing values here, so before we proceed we will remove them:
+Are there any missing values?
+```{r}
+NA_index <- is.na(Hitters)
+length(Hitters[NA_index])
+```
+
+There are `r length(Hitters[NA_index]` missing values here, so before we proceed we will remove them:
 
 ```{r}
 Hitters <- na.omit(Hitters)
