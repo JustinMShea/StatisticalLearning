@@ -8,6 +8,7 @@ output:
 ---
 
 Load the `ISLR` package and check the the `Hitters` data.
+
 ```{r}
 library(ISLR)
 data(Hitters)
@@ -29,37 +30,46 @@ There are `r length(Hitters[NA_index]` missing values here, so before we proceed
 
 ```{r}
 Hitters <- na.omit(Hitters)
-with(Hitters,sum(is.na(Salary)))
+
+NA_index <- is.na(Hitters)
+
+length(Hitters[NA_index])
 ```
 
 ## Best Subset regression
 
 We will now use the package `leaps` to evaluate all the best-subset models.
+
 ```{r}
 library(leaps)
-regfit.full <- regsubsets(Salary ~ ., data = Hitters)
-summary(regfit.full)
+subset_full <- regsubsets(Salary ~ ., data = Hitters)
+summary(subset_full)
 ```
 
-It gives by default best-subsets up to size 8; lets increase that to 19, i.e. all the variables
+Notice above, the default best-subsets up to size 8.
+Lets increase that to 19, which is all the variables, create `summary` statistics on the model and view their names.
 
 ```{r}
-regfit.full <- regsubsets(Salary ~ ., data = Hitters, nvmax = 19)
+subset_full <- regsubsets(Salary ~ ., data = Hitters, nvmax = 19)
 
-reg.summary <- summary(regfit.full)
+full_summary <- summary(subset_full)
 
-names(reg.summary)
-
-plot(reg.summary$cp, xlab = "Number of Variables", ylab = "Cp")
-which.min(reg.summary$cp)
-points(10, reg.summary$cp[10], pch = 20, col = "red")
+names(full_summary)
 ```
 
-There is a plot method for the `regsubsets`  object
+So lets plot the `Cp`, or the estimated prediction error, for each variable.
+
+```{R}
+plot(full_summary$cp, xlab = "Number of Variables", ylab = "Cp")
+which.min(full_summary$cp)
+points(10, full_summary$cp[10], pch = 20, col = "red")
+```
+
+There is a plot method designed specifically for the `regsubsets`  object which is displayed below. It also plots the `Cp` statistic but each variable. Areas that are colored black indicate the variable is present in the model at the corresponding `Cp` level, while white areas communicate an absence of the variable.
 
 ```{r}
-plot(regfit.full, scale = "Cp")
-coef(regfit.full, 10)
+plot(subset_full, scale = "Cp")
+coef(subset_full, 10)
 ```
 
 
@@ -69,9 +79,9 @@ coef(regfit.full, 10)
 Here we use the `regsubsets` function but specify the `method="forward"` option:
 
 ```{r}
-regfit.fwd <- regsubsets(Salary ~ ., data=Hitters, nvmax=19, method="forward")
-summary(regfit.fwd)
-plot(regfit.fwd, scale = "Cp")
+forward_step <- regsubsets(Salary ~ ., data=Hitters, nvmax=19, method="forward")
+summary(forward_step)
+plot(forward_step, scale = "Cp")
 ```
 
 ## Model Selection Using a Validation Set
@@ -83,7 +93,7 @@ dim(Hitters)
 set.seed(1)
 train <- sample(seq(263), 180, replace=FALSE)
 train
-regfit.fwd <- regsubsets(Salary ~ ., data=Hitters[train,], nvmax=19, method="forward")
+forward_step <- regsubsets(Salary ~ ., data=Hitters[train,], nvmax=19, method="forward")
 ```
 
 Now we will make predictions on the observations not used for training. We know there are 19 models, so we set up some vectors to record the errors. We have to do a bit of work here, because there is no predict method for `regsubsets`.
@@ -93,13 +103,13 @@ val.errors <- rep(NA, 19)
 x.test <- model.matrix(Salary ~ ., data = Hitters[-train,]) # notice the -index!
 
 for(i in 1:19){
-  coefi <- coef(regfit.fwd, id = i)
+  coefi <- coef(forward_step, id = i)
   pred <- x.test[,names(coefi)] %*% coefi
   val.errors[i] <- mean((Hitters$Salary[-train] - pred)^2)
 }
 
 plot(sqrt(val.errors), ylab="Root MSE", ylim=c(300,400), pch=19, type="b")
-points(sqrt(regfit.fwd$rss[-1]/180), col="blue", pch=19, type="b")
+points(sqrt(forward_step$rss[-1]/180), col="blue", pch=19, type="b")
 legend("topright", legend=c("Training", "Validation"),col=c("blue", "black"), pch=19)
 ```
 
@@ -153,7 +163,7 @@ x <- model.matrix(Salary ~ .-1, data = Hitters)
 y <- Hitters$Salary
 ```
 
-First we will fit a ridge-regression model. This is achieved by calling `glmnet` with `alpha=0` (see the helpfile). There is also a `cv.glmnet` function which will do the cross-validation for us. 
+First we will fit a ridge-regression model. This is achieved by calling `glmnet` with `alpha=0` (see the help file). There is also a `cv.glmnet` function which will do the cross-validation for us. 
 
 ```{r}
 fit.ridge <- glmnet(x, y, alpha = 0)
