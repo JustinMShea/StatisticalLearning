@@ -21,6 +21,7 @@ str(Hitters)
 ```
 
 Are there any missing values?
+
 ```{r}
 NA_index <- is.na(Hitters)
 length(Hitters[NA_index])
@@ -39,15 +40,18 @@ length(Hitters[NA_index])
 ## Best Subset regression
 
 We will now use the package `leaps` to evaluate all the best-subset models.
+It considers all possible variable combinations for each possible model size.
+The `*` in each row of the model output below signifies the chosen variable.
 
 ```{r}
 library(leaps)
+
 subset_full <- regsubsets(Salary ~ ., data = Hitters)
 summary(subset_full)
 ```
 
 Notice above, the default best-subsets up to size 8.
-Lets increase that to 19, which is all the variables, create `summary` statistics on the model and view their names.
+Lets increase that to 19, which is all the variables, create `summary` statistics on the model and view their names. Calling names on the `full_summary` gives us the output categories it contains.
 
 ```{r}
 subset_full <- regsubsets(Salary ~ ., data = Hitters, nvmax = 19)
@@ -57,12 +61,12 @@ full_summary <- summary(subset_full)
 names(full_summary)
 ```
 
-So lets plot the `Cp`, or the estimated prediction error, for each variable.
+So lets plot the `Cp`, or the estimated prediction error, for each variable. As we are looking for the `Min`, we can use the `which.min` function and color it red.
 
-```{R}
+```{r, tidy=TRUE}
 plot(full_summary$cp, xlab = "Number of Variables", ylab = "Cp")
-which.min(full_summary$cp)
-points(10, full_summary$cp[10], pch = 20, col = "red")
+
+points(which.min(full_summary$cp), full_summary$cp[which.min(full_summary$cp)], pch = 20, col = "red")
 ```
 
 There is a plot method designed specifically for the `regsubsets`  object which is displayed below. It also plots the `Cp` statistic but each variable. Areas that are colored black indicate the variable is present in the model at the corresponding `Cp` level, while white areas communicate an absence of the variable.
@@ -88,41 +92,43 @@ plot(forward_step, scale = "Cp")
 
 Lets make a training and validation set, so that we can choose a good subset model. We will do it using a slightly different approach from what was done in the the book.
 
-```{r}
+```{r, tidy=TRUE}
 dim(Hitters)
 set.seed(1)
-train <- sample(seq(263), 180, replace=FALSE)
-train
-forward_step <- regsubsets(Salary ~ ., data=Hitters[train,], nvmax=19, method="forward")
+
+train <- sample(seq(263), 180, replace = FALSE)
+
+forward_step <- regsubsets(Salary ~ ., data = Hitters[train, ], nvmax = 19, method = "forward")
 ```
 
 Now we will make predictions on the observations not used for training. We know there are 19 models, so we set up some vectors to record the errors. We have to do a bit of work here, because there is no predict method for `regsubsets`.
 
-```{r}
+```{r, tidy=TRUE}
 val.errors <- rep(NA, 19)
-x.test <- model.matrix(Salary ~ ., data = Hitters[-train,]) # notice the -index!
+x.test <- model.matrix(Salary ~ ., data = Hitters[-train, ]) 
 
 for(i in 1:19){
   coefi <- coef(forward_step, id = i)
-  pred <- x.test[,names(coefi)] %*% coefi
+  pred <- x.test[ ,names(coefi)] %*% coefi
   val.errors[i] <- mean((Hitters$Salary[-train] - pred)^2)
 }
 
 plot(sqrt(val.errors), ylab="Root MSE", ylim=c(300,400), pch=19, type="b")
-points(sqrt(forward_step$rss[-1]/180), col="blue", pch=19, type="b")
-legend("topright", legend=c("Training", "Validation"),col=c("blue", "black"), pch=19)
+points(sqrt(forward_step$rss[-1]/180), col="green", pch=19, type="b")
+legend("topright", legend=c("Training", "Validation"),col=c("green", "black"), pch=19)
 ```
 
 As we expect, the training error goes down monotonically as the model gets bigger, but not so for the validation error.
 
-This was a little tedious - not having a predict method for `regsubsets`. So we will write one!
+This was a little tedious - not having a predict method for `regsubsets`. So we will write a generic function for it.
 ```{r}
-predict.regsubsets <- function(object,newdata, id, ...){
+predict.regsubsets <- function(object, newdata, id, ...){
                         form <- as.formula(object$call[[2]])
                         mat <- model.matrix(form, newdata)
                         coefi <- coef(object, id = id)
-                        mat[,names(coefi)] %*% coefi
+                        mat[ ,names(coefi)] %*% coefi
 }
+
 ```
 
 
@@ -131,9 +137,9 @@ predict.regsubsets <- function(object,newdata, id, ...){
 
 We will do 10-fold cross-validation. Its really easy!
 
-```{r}
+```{r, tidy=TRUE}
 set.seed(11)
-folds <- sample(rep(1:10, length=nrow(Hitters)))
+folds <- sample(rep(1:10, length = nrow(Hitters)))
 folds
 table(folds)
 
@@ -149,7 +155,7 @@ best.fit <- regsubsets(Salary ~ ., data = Hitters[folds!=k,], nvmax=19, method="
 
 rmse.cv <- sqrt(apply(cv.errors, 2, mean))
 
-plot(rmse.cv, pch=19, type="b")
+plot(rmse.cv, col="blue", pch=19, type="b")
 ```
 
 
@@ -157,44 +163,77 @@ plot(rmse.cv, pch=19, type="b")
  
 We will use the package `glmnet`, which does not use the model formula language, so we will set up an `x` and `y`.
 
-```{r}
+```{r, warning=FALSE}
 library(glmnet)
+?glmnet
+
 x <- model.matrix(Salary ~ .-1, data = Hitters) 
+
 y <- Hitters$Salary
 ```
 
-First we will fit a ridge-regression model. This is achieved by calling `glmnet` with `alpha=0` (see the help file). There is also a `cv.glmnet` function which will do the cross-validation for us. 
+First we will fit a ridge-regression model. Use `glmnet` with `alpha = 0`. Remember from the lectures, ridge regression penalizes by the sum squares of the coefficients. It takes the usual linear regression Residual Sum of Squares ($RSS$), and has been modified by adding a penalty placed on the coefficients.
+
+$$RSS + \lambda\sum_{j=1}^p\beta_j^2$$
+
+
+As $\lambda$ increases, the coefficients shrink to zero. The following plot illustrates this relationship well. When $\lambda = 0$, you have the coefficients of linear regression, with their parameters resting on the y-axis where x = 0.
 
 ```{r}
-fit.ridge <- glmnet(x, y, alpha = 0)
-plot(fit.ridge, xvar= "lambda", label = TRUE)
-cv.ridge <- cv.glmnet(x, y, alpha = 0)
-plot(cv.ridge)
+ridge_model <- glmnet(x, y, alpha = 0)
+
+plot(ridge_model, xvar = "lambda", label = TRUE)
+```
+here is also a `cv.glmnet` function which will do the cross-validation for us and has a plot method.
+
+```{r}
+cv_ridge_model <- cv.glmnet(x, y, alpha = 0)
+
+plot(cv_ridge_model)
 ```
 
-Now we fit a lasso model; for this we use the default `alpha=1`
+Now we fit a lasso model, calling `glmnet` but using the default `alpha=1`.
+This time, instead of penalizing the sum of squares of the coefficients,
+we penalize their absolute values instead. This actually restricts some coefficients to be exactly zero, which makes them effectively NULL.
+Your variable selection has now been performed for you in a much more efficient manner than the subset and step-wise methods.
+
+$$RSS + \lambda\sum_{j=1}^p\lvert\beta_j\rvert$$
 
 ```{r}
-fit.lasso <- glmnet(x,y)
-plot(fit.lasso,xvar="lambda",label=TRUE)
+lasso_model <- glmnet(x, y, alpha = 1)
+plot(lasso_model, xvar = "lambda", label=TRUE)
+plot(lasso_model, xvar = "dev", label=TRUE)
+```
 
-cv.lasso <- cv.glmnet(x,y)
+Lets use Cross-Validation for the Lasso.
+
+```{r}
+cv.lasso <- cv.glmnet(x, y, alpha = 1)
 plot(cv.lasso)
 coef(cv.lasso)
 ```
 
- Suppose we want to use our earlier train/validation division to select the `lambda` for the lasso.This is easy to do.
+Suppose we want to use our earlier train/validation set to select the `lambda` for the lasso.
  
 ```{r}
-lasso.tr <- glmnet(x[train,],y[train])
-lasso.tr
+lasso_train <- glmnet(x[train,],y[train])
 
-pred <- predict(lasso.tr,x[-train,])
+lasso_train
+
+pred <- predict(lasso_train, x[-train, ])
+
 dim(pred)
-rmse <-  sqrt(apply((y[-train]-pred)^2,2,mean))
-plot(log(lasso.tr$lambda),rmse,type="b",xlab="Log(lambda)")
+```
 
-lam.best <- lasso.tr$lambda[order(rmse)[1]]
-lam.best
-coef(lasso.tr,s=lam.best)
+```{r}
+rmse <-  sqrt(apply((y[-train]-pred)^2, 2, mean))
+plot(log(lasso_train$lambda), rmse, type = "b", xlab = "Log(lambda)")
+```
+
+```{r}
+lambda_best <- lasso_train$lambda[order(rmse)[1]]
+
+lambda_best
+
+coef(lasso_train, s = lambda_best)
 ```
