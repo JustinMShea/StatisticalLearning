@@ -3,10 +3,14 @@ title: "Model Selection"
 author: "Justin M Shea"
 date: ''
 output:
-  pdf_document: default
+  pdf_document:
+        toc: TRUE
   html_document: default
 ---
 
+\newpage
+
+## Introduction
 Load the `ISLR` package and check the the `Hitters` data.
 
 ```{r}
@@ -27,7 +31,7 @@ NA_index <- is.na(Hitters)
 length(Hitters[NA_index])
 ```
 
-There are `r length(Hitters[NA_index]` missing values here, so before we proceed we will remove them:
+There are `r length(Hitters[NA_index])` missing values here, so before we proceed we will remove them:
 
 ```{r}
 Hitters <- na.omit(Hitters)
