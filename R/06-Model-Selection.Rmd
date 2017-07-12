@@ -190,6 +190,8 @@ here is also a `cv.glmnet` function which will do the cross-validation for us an
 cv_ridge_model <- cv.glmnet(x, y, alpha = 0)
 
 plot(cv_ridge_model)
+
+str(cv_ridge_model)
 ```
 
 Now we fit a lasso model, calling `glmnet` but using the default `alpha=1`.
