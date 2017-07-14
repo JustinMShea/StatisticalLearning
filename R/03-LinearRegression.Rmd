@@ -1,14 +1,16 @@
 ---
-title: "ISLR: Linear Regression"
+title: "ISLR 3: Linear Regression"
 author: "Justin M Shea"
 date: ''
 output:
-  pdf_document: default
+  pdf_document:
+        toc: TRUE
   html_document: default
 ---
 
-Linear Regression
-====================
+\newpage
+
+
 
 Load the following packages.
 ```{r}
@@ -16,7 +18,7 @@ library(MASS)
 library(ISLR)
 ```
 
-### Simple linear regression
+## Simple linear regression
 Check out the `Boston` data
 ```
 ?Boston
@@ -60,7 +62,7 @@ predict(Boston_lm, data.frame(lstat=c(5,10,15)), interval="confidence")
 
 \newpage
 
-### Multiple linear regression
+## Multiple linear regression
 
 Regress `lstat` and `age` against `medv` of the `Boston` data set and print the `summary` diagnostics. 
 
@@ -88,7 +90,7 @@ Boston_lm4 <- update(Boston_lm3,~.-age-indus)
 summary(Boston_lm4)
 ```
 
-### Nonlinear terms and Interactions
+## Nonlinear terms and Interactions
 
 Multiply `lstat` by `age` and regress against `medv`:
 
@@ -122,7 +124,7 @@ Boston_Interaction
 Boston_poly
 ```
 
-###Qualitative predictors
+## Qualitative predictors
 
 For this section, use the `Carseats` data. Lets explore:
 
@@ -146,7 +148,7 @@ contrasts(Carseats$ShelveLoc)
 ```
 
 
-### Brief section writing R functions
+## Brief section writing R functions
 
 Function creating a plot which displays linear model regressin line.
 

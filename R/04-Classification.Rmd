@@ -1,11 +1,14 @@
 ---
-title: "ISLR: Classification"
+title: "ISLR 4: Classification"
 author: "Justin M Shea"
 date: ''
 output:
-  pdf_document: default
+  pdf_document:
+        toc: TRUE
   html_document: default
 ---
+
+\newpage
 
 ## Logistic Regression: Stock Market
 
@@ -167,7 +170,7 @@ table(qda.class, Direction_2005)
 mean(qda.class==Direction_2005)
 ```
 
-# K-Nearest Neighbors
+## K-Nearest Neighbors
 
 A simple, but very effective classifcation tool, we are going to use the `class` package to run k-nearest neighbors on the `Smarket` data.
 

@@ -1,5 +1,5 @@
 ---
-title: "Model Selection"
+title: "ISLR 6: Linear Model Selection and Regularization"
 author: "Justin M Shea"
 date: ''
 output:
