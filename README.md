@@ -42,7 +42,7 @@ R work following chapters in the course text "An Introduction to Statistical Lea
 5.4 The Bootstrap
 
 
-## [Subset Selection Methods](https://github.com/JustinMShea/Statistical-Learning/blob/master/R/06-Model-Selection.pdf)
+## [Linear Model Selection and Regularization](https://github.com/JustinMShea/Statistical-Learning/blob/master/R/06-Model-Selection.pdf)
 
 6.1 Best Subset Selection 
 
@@ -54,6 +54,16 @@ R work following chapters in the course text "An Introduction to Statistical Lea
 
 6.5 Ridge Regression and the Lasso
 
+## [Moving Beyond Linearity](https://github.com/JustinMShea/Statistical-Learning/blob/master/R/07-Nonlinear.pdf)
 
+7.1 Introduction
+
+7.2 Polynomials
+
+7.3 Polynomial logistic regression
+
+7.4 Splines
+
+7.5 Generalized Additive Models
 
 

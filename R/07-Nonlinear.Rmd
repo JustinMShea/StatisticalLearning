@@ -1,5 +1,5 @@
 ---
-title: "Nonlinear Models"
+title: "Moving Beyond Linearity"
 author: "Justin M Shea"
 date: ''
 output:
