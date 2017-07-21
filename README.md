@@ -2,8 +2,6 @@
 
 Course offered online through [Standford University](https://lagunita.stanford.edu) closely following the text "An Introduction to Statistical Learning, with Applications in R" (James, Witten, Hastie, Tibshirani - Springer 2013). Taught by the text authors.
 
-## [Statement of Accomplishment here](https://github.com/JustinMShea/Statistical-Learning/blob/master/ISLR-Statement-of-Accomplishment.pdf)
-
 
 ## [Linear Regression](https://github.com/JustinMShea/Statistical-Learning/blob/master/R/03-LinearRegression.pdf)
 
@@ -98,6 +96,9 @@ Course offered online through [Standford University](https://lagunita.stanford.e
 10.4 Hierarchical Clustering
 
 10.5 Breast Cancer Example
+
+
+# [Statement of Accomplishment HERE](https://github.com/JustinMShea/Statistical-Learning/blob/master/ISLR-Statement-of-Accomplishment.pdf)
 
 
 
