@@ -1,10 +1,7 @@
-# Introduction to Statistical Learning
+# Introduction to Statistical Learning Course
 
-R work following chapters in the course text "An Introduction to Statistical Learning, with Applications in R" (James, Witten, Hastie, Tibshirani - Springer 2013). 
+Course offered online [Standford University](https://lagunita.stanford.edu) closely following the text "An Introduction to Statistical Learning, with Applications in R" (James, Witten, Hastie, Tibshirani - Springer 2013). Taught by the text authors.
 
-[Lecture PDFs](https://github.com/JustinMShea/Statistical-Learning/tree/master/lecturePDFs)
-
-[.R files](https://github.com/JustinMShea/Statistical-Learning/tree/master/R)
 
 ## [Linear Regression](https://github.com/JustinMShea/Statistical-Learning/blob/master/R/03-LinearRegression.pdf)
 
@@ -46,9 +43,9 @@ R work following chapters in the course text "An Introduction to Statistical Lea
 
 6.1 Best Subset Selection 
 
-6.2 Forward and Backward Stepwise Selection  
+6.2 Forward and Backward Step-wise Selection  
 
-6.3 Model Selecton Using a Validation Set
+6.3 Model Selection Using a Validation Set
 
 6.4 Model Selection by Cross-Validation
 
@@ -65,5 +62,41 @@ R work following chapters in the course text "An Introduction to Statistical Lea
 7.4 Splines
 
 7.5 Generalized Additive Models
+
+## [Tree-Based Methods](https://github.com/JustinMShea/Statistical-Learning/blob/master/R/08-Trees.pdf)
+
+8.1 Introduction
+
+8.2 More details on Trees
+
+8.3 Classification trees
+
+8.4 Bagging and Random forests
+
+8.5 Boosting
+
+## [Support Vector Machines](https://github.com/JustinMShea/Statistical-Learning/blob/master/R/09-SVM.pdf)
+
+9.1 Optimal Separating Hyper-planes
+
+9.2 Support Vector Classifier
+
+9.3 Feature Expansion and the SVM
+
+9.4 Example and Comparison with Logistic Regression
+
+## [Unsupervised Learning](https://github.com/JustinMShea/Statistical-Learning/blob/master/R/10-Unsupervised.pdf)
+
+10.1 Principal Components
+
+10.2 Higher Order Principal Components
+
+10.3 k-means Clustering
+
+10.4 Hierarchical Clustering
+
+10.5 Breast Cancer Example
+
+
 
 
