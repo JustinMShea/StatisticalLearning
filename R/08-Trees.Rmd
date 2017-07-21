@@ -1,10 +1,17 @@
 ---
+title: "Tree-Based Methods"
+author: "Justin M Shea"
+date: ''
 output:
-  pdf_document: default
+  pdf_document:
+        toc: TRUE
   html_document: default
 ---
-Decision Trees
-========================================================
+
+\newpage
+
+
+## Introduction
 
 We will have a look at the `Carseats` data using the `tree` package in R, as in the lab in the book.
 We create a binary response variable `High` (for high sales), and we include it in the same dataframe.
@@ -63,14 +70,15 @@ with(Carseats[-train, ], table(tree.pred, High))
 
 It has done about the same as our original tree. So pruning did not hurt us wrt misclassification errors, and gave us a simpler tree.
 
-Random Forests and Boosting
-============================
+\newpage
+
+**Random Forests and Boosting**
 
 These methods use trees as building blocks to build more complex models. Here we will use the Boston housing data to explore random forests and boosting. These data are in the `MASS` package.
 It gives housing values and other statistics in each of 506 suburbs of Boston based on a 1970 census.
 
-Random Forests
---------------
+## Random Forests
+
 Random forests build lots of bushy trees, and then average them to reduce the variance.
 
 ```{r}
@@ -110,8 +118,8 @@ legend("topright", legend=c("OOB","Test"), pch=19, col=c("red","blue"))
 
 Not too difficult! Although the test-error curve drops below the OOB curve, these are estimates based on data, and so have their own standard errors (which are typically quite large). Notice that the points at the end with `mtry=13` correspond to bagging.
 
-Boosting
---------
+## Boosting
+ 
 Boosting builds lots of smaller trees. Unlike random forests, each new tree in boosting tries to patch up the deficiencies of the current ensemble.
 ```{r}
 library(gbm)
