@@ -69,7 +69,7 @@ Course offered online through [Standford University](https://lagunita.stanford.e
 
 8.2 Random forests
 
-8.3. Boosting
+8.3 Boosting
 
 ## [Support Vector Machines](https://github.com/JustinMShea/Statistical-Learning/blob/master/R/09-SVM.pdf)
 
