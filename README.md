@@ -1,6 +1,6 @@
 # Introduction to Statistical Learning Course
 
-Course offered online through [Standford University](https://lagunita.stanford.edu) closely following the text "An Introduction to Statistical Learning, with Applications in R" (James, Witten, Hastie, Tibshirani - Springer 2013). Taught by the text authors.
+Course offered online through [Stanford University](https://lagunita.stanford.edu) closely following the text ["An Introduction to Statistical Learning, with Applications in R"](http://www-bcf.usc.edu/~gareth/ISL/) (James, Witten, Hastie, Tibshirani - Springer 2013). Taught by Hastie & Tibshirani with guest appearances by Daniela Witten and Jerome Friedman,
 
 
 ## [Linear Regression](https://github.com/JustinMShea/Statistical-Learning/blob/master/R/03-LinearRegression.pdf)
