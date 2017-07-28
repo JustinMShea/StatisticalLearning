@@ -1,6 +1,6 @@
 # Introduction to Statistical Learning Course
 
-Course offered online through [Stanford University](https://lagunita.stanford.edu) closely following the text ["An Introduction to Statistical Learning, with Applications in R"](http://www-bcf.usc.edu/~gareth/ISL/) (James, Witten, Hastie, Tibshirani - Springer 2013). Taught by Hastie & Tibshirani with guest appearances by Daniela Witten and Jerome Friedman,
+Course offered online through [Stanford ONLINE](https://lagunita.stanford.edu/courses/HumanitiesSciences/StatLearning/Winter2016/about) closely following the text ["An Introduction to Statistical Learning, with Applications in R"](http://www-bcf.usc.edu/~gareth/ISL/) (James, Witten, Hastie, Tibshirani - Springer 2013). Taught by Hastie & Tibshirani with guest appearances by Daniela Witten and Jerome Friedman.
 
 
 ## [Linear Regression](https://github.com/JustinMShea/Statistical-Learning/blob/master/R/03-LinearRegression.pdf)
@@ -90,6 +90,6 @@ Course offered online through [Stanford University](https://lagunita.stanford.ed
 
 ## [Statement of Accomplishment](https://github.com/JustinMShea/Statistical-Learning/blob/master/ISLR-Statement-of-Accomplishment.pdf)
 
-But of course, what really matters when learning online is not the certificate but how much work and thought one puts in to understanding the material. In this vein, I often referenced _[The Elements of Statistical Learning](http://web.stanford.edu/~hastie/ElemStatLearn/)_ to dive deeper into topics of interest. If a topic in ISLR leaves you curious for more, ESLR is an excellent compliment.
+Of course, what really matters when learning online is not the certificate but how much one puts in to understanding the material. In this vein, I often referenced _[The Elements of Statistical Learning](http://web.stanford.edu/~hastie/ElemStatLearn/)_ to dive deeper into topics of interest. If a topic in ISLR leaves you curious for more, ESLR is an excellent compliment.
 
 
