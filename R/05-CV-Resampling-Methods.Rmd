@@ -1,6 +1,6 @@
 ---
 title: "ISLR 5: Resampling Methods"
-author: "Justin M Shea"
+author: " "
 date: ''
 output:
   pdf_document:

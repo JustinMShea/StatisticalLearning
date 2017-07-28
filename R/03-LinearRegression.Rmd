@@ -1,6 +1,6 @@
 ---
 title: "ISLR 3: Linear Regression"
-author: "Justin M Shea"
+author: " "
 date: ''
 output:
   pdf_document:

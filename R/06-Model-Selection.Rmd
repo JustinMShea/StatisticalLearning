@@ -1,6 +1,6 @@
 ---
 title: "ISLR 6: Linear Model Selection and Regularization"
-author: "Justin M Shea"
+author: " "
 date: ''
 output:
   pdf_document:

@@ -1,6 +1,6 @@
 ---
 title: "ISLR 4: Classification"
-author: "Justin M Shea"
+author: " "
 date: ''
 output:
   pdf_document:

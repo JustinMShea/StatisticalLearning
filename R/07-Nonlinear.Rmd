@@ -1,6 +1,6 @@
 ---
 title: "Moving Beyond Linearity"
-author: "Justin M Shea"
+author: " "
 date: ''
 output:
   pdf_document:
@@ -161,12 +161,12 @@ The `gam` package makes it easier to work with multiple nonlinear terms. In addi
 library(gam)
 wage_gam <- gam(wage ~ s(age, df = 4) + s(year, df = 4) + education, data = Wage)
 par(mfrow = c(1, 3))
-plot(wage_gam, se = T)
+plot(wage_gam, se = T, col="blue")
 ```
 
 ```{r fig.width=10, fig.height=5, tidy=TRUE}
 wage_gam2 <- gam(I(wage > 250) ~ s(age, df = 4) + s(year, df = 4) + education, data = Wage, family = binomial)
-plot(wage_gam2)
+plot(wage_gam2, col="brown")
 ```
 
 Lets see if we need a nonlinear terms for year
@@ -181,5 +181,5 @@ One nice feature of the `gam` package is that it knows how to plot the functions
 ```{r fig.width=10, fig.height=5}
 par(mfrow = c(1,3))
 wage_lm <- lm(wage ~ ns(age, df=4) + ns(year, df=4) + education, data = Wage)
-plot.gam(wage_lm, se =T)
+plot.gam(wage_lm, se =T, col="blue")
 ```

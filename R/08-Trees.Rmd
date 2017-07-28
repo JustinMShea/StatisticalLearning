@@ -13,8 +13,7 @@ output:
 
 ## Introduction
 
-We will have a look at the `Carseats` data using the `tree` package in R, as in the lab in the book.
-We create a binary response variable `High` (for high sales), and we include it in the same dataframe.
+We will have a look at the `Carseats` data using the `tree` package in R, as in the lab in the book. We create a binary response variable `High` (for high sales), and we include it in the same dataframe.
 
 ```{r}
 library(ISLR)
@@ -32,7 +31,7 @@ tree.carseats <- tree(High~.-Sales, data = Carseats)
 summary(tree.carseats)
 
 plot(tree.carseats)
-text(tree.carseats, pretty=0)
+text(tree.carseats, pretty=1)
 ```
 
 For a detailed summary of the tree, print it:
@@ -44,9 +43,10 @@ Lets create a training and test set (250,150) split of the 400 observations, gro
 ```{r}
 set.seed(1011)
 train <- sample(1:nrow(Carseats), 250)
-tree.carseats <- tree(High ~ .-Sales, Carseats,subset = train)
+tree.carseats <- tree(High ~ .-Sales, Carseats, subset = train)
+
 plot(tree.carseats);text(tree.carseats, pretty=0)
-tree.pred <- predict(tree.carseats, Carseats[-train,], type="class")
+tree.pred <- predict(tree.carseats, Carseats[-train,], type = "class")
 with(Carseats[-train,], table(tree.pred,High))
 (72+33)/150
 ```

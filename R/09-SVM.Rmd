@@ -1,6 +1,6 @@
 ---
 title: "Support Vector Machines"
-author: "Justin M Shea"
+author: " "
 date: ''
 output:
   pdf_document:
