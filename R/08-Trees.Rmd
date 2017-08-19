@@ -1,6 +1,6 @@
 ---
 title: "Tree-Based Methods"
-author: "Justin M Shea"
+author: " "
 date: ''
 output:
   pdf_document:
@@ -13,45 +13,48 @@ output:
 
 ## Introduction
 
-We will have a look at the `Carseats` data using the `tree` package in R, as in the lab in the book. We create a binary response variable `High` (for high sales), and we include it in the same dataframe.
+We will have a look at the `Carseats` data using the `tree`, `rpart`, and `party` packages in R, as in the lab in the book. We create a binary response variable `High` (for high sales), and we include it in the same dataframe.
 
 ```{r}
 library(ISLR)
-library(tree)
-library(rpart)
 attach(Carseats)
+
 hist(Sales)
-High <- ifelse(Sales <= 8, "No", "Yes")
-Carseats <- data.frame(Carseats, High)
 ```
+
 Now we fit a tree to these data, and summarize and plot it. Notice that we have to _exclude_ `Sales` from the right-hand side of the formula, because the response is derived from it.
 
 ```{r}
+High <- ifelse(Sales <= 8, "No", "Yes")
+Carseats <- data.frame(Carseats, High)
+
 library(rpart)
 tree.carseats <- rpart(High~.-Sales, data = Carseats)
 
-summary(tree.carseats)
-
 plot(tree.carseats)
 text(tree.carseats, pretty=1)
+
+summary(tree.carseats)
 ```
 
 ```{r}
 library(party)
 tree_carseats <- ctree(High~.-Sales, data = Carseats)
 
-summary(tree_carseats)
-
 plot(tree_carseats)
+
+summary(tree_carseats)
 ```
 
 For a detailed summary of the tree, print it:
+
 ```{r}
-tree_carseats
+tree.carseats
 ```
 
 Lets create a training and test set (250,150) split of the 400 observations, grow the tree on the training set, and evaluate its performance on the test set.
 ```{r}
+library(tree)
 set.seed(1011)
 train <- sample(1:nrow(Carseats), 250)
 tree.carseats <- tree(High ~ .-Sales, Carseats, subset = train)
@@ -64,6 +67,7 @@ with(Carseats[-train,], table(tree.pred,High))
 
 This tree was grown to full depth, and might be too variable. We now use CV to prune it.
 ```{r}
+library(tree)
 cv.carseats <- cv.tree(tree.carseats, FUN = prune.misclass)
 cv.carseats
 plot(cv.carseats)
@@ -132,13 +136,13 @@ Not too difficult! Although the test-error curve drops below the OOB curve, thes
 ## Boosting
  
 Boosting builds lots of smaller trees. Unlike random forests, each new tree in boosting tries to patch up the deficiencies of the current ensemble.
-```{r}
-library(gbm)
+```{r, tidy=TRUE}
+library(gbm3)
 boost.boston <- gbm(medv ~., data = Boston[train, ], distribution="gaussian", n.trees=10000, shrinkage=0.01, interaction.depth=4)
 
 summary(boost.boston)
-plot(boost.boston, i="lstat")
-plot(boost.boston, i="rm")
+plot(boost.boston, var_index = "lstat")
+plot(boost.boston, var_index = "rm")
 ```
 
 Lets make a prediction on the test set. With boosting, the number of trees is a tuning parameter, and if we have too many we can overfit. So we should use cross-validation to select the number of trees. We will leave this as an exercise. Instead, we will compute the test error as a function of the number of trees, and make a plot.
