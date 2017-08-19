@@ -25,19 +25,22 @@ hist(Sales)
 Now we fit a tree to these data, and summarize and plot it. Notice that we have to _exclude_ `Sales` from the right-hand side of the formula, because the response is derived from it.
 
 ```{r}
+library(rpart)
+
 High <- ifelse(Sales <= 8, "No", "Yes")
+
 Carseats <- data.frame(Carseats, High)
 
-library(rpart)
 tree.carseats <- rpart(High~.-Sales, data = Carseats)
-
-plot(tree.carseats)
-text(tree.carseats, pretty=1)
-
-summary(tree.carseats)
 ```
+\newpage
 
 ```{r}
+plot(tree.carseats, uniform = TRUE)
+text(tree.carseats, pretty=1)
+```
+
+```{r, warning=FALSE, message=FALSE}
 library(party)
 tree_carseats <- ctree(High~.-Sales, data = Carseats)
 
@@ -59,7 +62,8 @@ set.seed(1011)
 train <- sample(1:nrow(Carseats), 250)
 tree.carseats <- tree(High ~ .-Sales, Carseats, subset = train)
 
-plot(tree.carseats);text(tree.carseats, pretty=0)
+plot(tree.carseats)
+text(tree.carseats, pretty=0)
 tree.pred <- predict(tree.carseats, Carseats[-train,], type = "class")
 with(Carseats[-train,], table(tree.pred,High))
 (72+33)/150
