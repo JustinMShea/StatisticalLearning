@@ -11,7 +11,7 @@ output:
 \newpage
 
 
-## Introduction
+## Decision Trees
 
 We will have a look at the `Carseats` data using the `tree`, `rpart`, and `party` packages in R, as in the lab in the book. We create a binary response variable `High` (for high sales), and we include it in the same dataframe.
 
