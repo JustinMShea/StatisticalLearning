@@ -104,7 +104,7 @@
 <h2 class="hasAnchor">
 <a href="#r-r1" class="anchor"></a>5.R.R1</h2>
 <p>Consider the linear regression model of y on X1 and X2. What is the standard error for <span class="math inline">\(\beta_1\)</span>?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="kw">path.expand</span>(<span class="st">"~/R/StatisticalLearning/data/5.R.RData"</span>))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="kw">path.expand</span>(<span class="st">"~/R/StatisticalLearning/data/5R.RData"</span>))
 
 model_<span class="dv">51</span> &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>X1 <span class="op">+</span><span class="st"> </span>X2, <span class="dt">data =</span> Xy)
 
@@ -162,10 +162,10 @@ boot_model_<span class="dv">51</span> &lt;-<span class="st"> </span><span class=
 ## 
 ## Intervals : 
 ## Level      Normal              Basic         
-## 90%   ( 0.0977,  0.1935 )   ( 0.0981,  0.1937 )  
+## 90%   ( 0.0978,  0.1939 )   ( 0.0981,  0.1944 )  
 ## 
 ## Level     Percentile            BCa          
-## 90%   ( 0.0970,  0.1926 )   ( 0.0978,  0.1935 )  
+## 90%   ( 0.0962,  0.1926 )   ( 0.0986,  0.1948 )  
 ## Calculations and Intervals on Original Scale</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">boot_model_<span class="dv">51</span></code></pre></div>
 <pre><code>## 
@@ -178,8 +178,8 @@ boot_model_<span class="dv">51</span> &lt;-<span class="st"> </span><span class=
 ## 
 ## 
 ## Bootstrap Statistics :
-##      original       bias    std. error
-## t1* 0.1453263 -0.000287012  0.02913593</code></pre>
+##      original        bias    std. error
+## t1* 0.1453263 -0.0005416337  0.02921254</code></pre>
 
 </div>
 <div id="r-r4" class="section level2">
@@ -198,7 +198,7 @@ boot_model_<span class="dv">51</span> &lt;-<span class="st"> </span><span class=
 ## 
 ## Intervals : 
 ## Level      Normal              Basic              Percentile     
-## 90%   (-0.1801,  0.4709 )   (-0.1687,  0.4700 )   (-0.1793,  0.4594 )  
+## 90%   (-0.1847,  0.4699 )   (-0.1771,  0.4678 )   (-0.1772,  0.4678 )  
 ## Calculations and Intervals on Original Scale</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">block_boot_model_<span class="dv">51</span></code></pre></div>
 <pre><code>## 
@@ -213,8 +213,8 @@ boot_model_<span class="dv">51</span> &lt;-<span class="st"> </span><span class=
 ## 
 ## 
 ## Bootstrap Statistics :
-##      original        bias    std. error
-## t1* 0.1453263 -6.937583e-05   0.1978647</code></pre>
+##      original      bias    std. error
+## t1* 0.1453263 0.002687799   0.1989847</code></pre>
 </div>
 </div>
   </div>
