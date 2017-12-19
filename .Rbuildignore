@@ -1,0 +1,5 @@
+^docs$
+^ISLR-Statement-of-Accomplishment.pdf$
+^lectures$
+^.*\.Rproj$
+^\.Rproj\.user$
