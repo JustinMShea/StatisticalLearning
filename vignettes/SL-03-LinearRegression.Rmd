@@ -1,11 +1,12 @@
 ---
 title: "ISLR 3: Linear Regression"
 author: " "
-date: ''
-output:
-  pdf_document:
-        toc: TRUE
-  html_document: default
+date: " "
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 \newpage
@@ -79,7 +80,6 @@ summary(Boston_lm3)
 
 Lets plot the model
 ```{r}
-par(mfrow=c(2,2))
 plot(Boston_lm3)
 ```
 

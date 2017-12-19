@@ -3,9 +3,8 @@ title: "ISLR 5: Resampling Methods"
 author: " "
 date: ''
 output:
-  pdf_document:
-        toc: TRUE
-  html_document: default
+  html_document:
+            toc: TRUE
 ---
 
 \newpage

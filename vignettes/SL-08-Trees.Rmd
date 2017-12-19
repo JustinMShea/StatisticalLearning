@@ -3,9 +3,8 @@ title: "Tree-Based Methods"
 author: " "
 date: ''
 output:
-  pdf_document:
+    html_document:  
         toc: TRUE
-  html_document: default
 ---
 
 \newpage

@@ -3,9 +3,8 @@ title: "ISLR: Nonlinear functions quiz"
 author: "Justin M Shea"
 date: ""
 output:
-  pdf_document:
-        toc: TRUE
-  html_document: default
+  html_document:
+            toc: TRUE
 ---
 
 \newpage
@@ -24,7 +23,8 @@ download.file(data_address, paste0(getwd(),"/R"))
 Load the data from the file `7.R.RData`, and plot it using `plot(x,y)`. What is the slope coefficient in a linear regression of y on x (to within 10%)?
 
 ```{r}
-load(path.expand("~/R/StatisticalLearning/data/7R.RData"))
+#data(sysdata.rda)
+#load(path.expand("~/R/StatisticalLearning/data/7R.RData"))
 plot(x,y)
 ```
 
