@@ -26,3 +26,4 @@ vignettes/*.pdf
 ISLR Sixth Printing.pdf
 /lectures
 StatisticalLearning.Rproj
+.Rbuildignore
