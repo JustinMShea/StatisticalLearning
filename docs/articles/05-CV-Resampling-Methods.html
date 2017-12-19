@@ -137,12 +137,12 @@ glm_auto_lcoov<span class="op">$</span>delta</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(microbenchmark)
 <span class="kw">microbenchmark</span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/boot/topics/cv.glm">cv.glm</a></span>(Auto, glm_auto)<span class="op">$</span>delta, <span class="kw">loocv</span>(glm_auto), <span class="dt">times =</span> <span class="dv">10</span>, <span class="dt">unit =</span> <span class="st">"ms"</span>)</code></pre></div>
 <pre><code>## Unit: milliseconds
-##                          expr         min          lq       mean
-##  cv.glm(Auto, glm_auto)$delta 1194.095076 1267.702730 1326.89860
-##               loocv(glm_auto)    0.850139    0.900087    1.55324
-##       median          uq         max neval cld
-##  1312.143267 1392.436056 1473.739434    10   b
-##     0.979798    1.045825    6.020762    10  a</code></pre>
+##                          expr         min          lq        mean
+##  cv.glm(Auto, glm_auto)$delta 1191.412475 1206.604804 1229.497265
+##               loocv(glm_auto)    0.833033    0.921297    1.633086
+##        median          uq         max neval cld
+##  1232.9748270 1253.055879 1258.237104    10   b
+##     0.9570465    1.709513    6.015968    10  a</code></pre>
 
 <p>Next, lets use a <code>for</code> loop with our <code>loocv</code> function to efficiently create 5 new polynomial versions of the previous model, regressing <code>horsepower</code> against <code>mpg</code> and see if the results improve as polynomial order increases.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cv.error &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">5</span>)
