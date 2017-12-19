@@ -1,18 +1,19 @@
 Package: StatisticalLearning
 Type: Package
 Title: Contentfollowing the text "An Introduction to Statistical Learning, 
- with Applications in R".
+ with Applications in R"
 Version: 0.0.1
 Authors@R: person("Justin M.", "Shea", email = "jshea@roosevelt.edu", role = c("cre"))
 Description: Content follows course offered online through Stanford ONLINE closely following the 
  text "An Introduction to Statistical Learning, with Applications in R" 
  (James, Witten, Hastie, Tibshirani - Springer 2013).
 Depends: R (>= 3.4.0)
-License:  MIT + file LICENSE
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: ISLR, MASS, class, boot, leaps, glmnet, splines, gam, rpart, party, tree,
  randomForest, gbm3, e1071
-Suggests: rmarkdown, microbenchmark
+Suggests: rmarkdown, knitr, microbenchmark
 VignetteBuilder: knitr
 URL: https://lagunita.stanford.edu/courses/HumanitiesSciences/StatLearning/Winter2016/about
+RoxygenNote: 6.0.1

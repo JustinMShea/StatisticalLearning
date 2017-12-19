@@ -22,8 +22,6 @@ vignettes/*.pdf
 # Temporary files created by R markdown
 *.utf8.md
 *.knit.md
-# Reference test
-ISLR Sixth Printing.pdf
 # Lectures 
 /lectures
 # Buildignore
