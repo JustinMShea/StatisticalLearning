@@ -24,7 +24,7 @@ download.file(data_address, paste0(getwd(),"/R"))
 Load the data from the file `7.R.RData`, and plot it using `plot(x,y)`. What is the slope coefficient in a linear regression of y on x (to within 10%)?
 
 ```{r}
-load(path.expand("~/R/Statistical-Learning/data/7.R.RData"))
+load(path.expand("~/R/StatisticalLearning/data/7R.RData"))
 plot(x,y)
 ```
 

@@ -17,7 +17,7 @@ download.file(data_address, paste0(getwd(),"/R"))
 Consider the linear regression model of y on X1 and X2. What is the standard error for $\beta_1$?
 
 ```{r}
-load(path.expand("~/R/Statistical-Learning/data/5.R.RData"))
+load(path.expand("~/R/StatisticalLearning/data/5R.RData"))
 
 model_51 <- lm(y ~ X1 + X2, data = Xy)
 
