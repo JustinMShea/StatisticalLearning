@@ -3,7 +3,7 @@
 Course offered online through [Stanford ONLINE](https://lagunita.stanford.edu/courses/HumanitiesSciences/StatLearning/Winter2016/about) closely following the text ["An Introduction to Statistical Learning, with Applications in R"](http://www-bcf.usc.edu/~gareth/ISL/) (James, Witten, Hastie, Tibshirani - Springer 2013). Taught by Hastie & Tibshirani with guest appearances by Daniela Witten and Jerome Friedman.
 
 
-## [Linear Regression](https://github.com/JustinMShea/Statistical-Learning/blob/master/R/03-LinearRegression.pdf)
+## [Linear Regression](https://justinmshea.github.io/StatisticalLearning/articles/03-LinearRegression.html)
 
 3.1 Simple Linear Regression 
 
@@ -17,7 +17,7 @@ Course offered online through [Stanford ONLINE](https://lagunita.stanford.edu/co
 
 3.6 Writing functions combining modeling and plotting.
 
-## [Classification](https://github.com/JustinMShea/Statistical-Learning/blob/master/R/04-Classification.pdf)
+## [Classification](https://justinmshea.github.io/StatisticalLearning/articles/04-Classification.html)
 
 4.1 Logistic Regression 
 
@@ -28,7 +28,7 @@ Course offered online through [Stanford ONLINE](https://lagunita.stanford.edu/co
 4.4 K-Nearest Neighbors
 
 
-## [Cross-Validation and the Bootstrap](https://github.com/JustinMShea/Statistical-Learning/blob/master/R/05-CV-Resampling-Methods.pdf)
+## [Cross-Validation and the Bootstrap](https://justinmshea.github.io/StatisticalLearning/articles/05-CV-Resampling-Methods.html)
 
 5.1 The Validation Set Approach
 
@@ -39,7 +39,7 @@ Course offered online through [Stanford ONLINE](https://lagunita.stanford.edu/co
 5.4 The Bootstrap
 
 
-## [Linear Model Selection and Regularization](https://github.com/JustinMShea/Statistical-Learning/blob/master/R/06-Model-Selection.pdf)
+## [Linear Model Selection and Regularization](https://justinmshea.github.io/StatisticalLearning/articles/06-Model-Selection.html)
 
 6.1 Best Subset Selection 
 
@@ -51,7 +51,7 @@ Course offered online through [Stanford ONLINE](https://lagunita.stanford.edu/co
 
 6.5 Ridge Regression and the Lasso
 
-## [Moving Beyond Linearity](https://github.com/JustinMShea/Statistical-Learning/blob/master/R/07-Nonlinear.pdf)
+## [Moving Beyond Linearity](https://justinmshea.github.io/StatisticalLearning/articles/07-Nonlinear.html)
 
 7.1 Introduction
 
@@ -63,7 +63,7 @@ Course offered online through [Stanford ONLINE](https://lagunita.stanford.edu/co
 
 7.5 Generalized Additive Models
 
-## [Tree-Based Methods](https://github.com/JustinMShea/Statistical-Learning/blob/master/R/08-Trees.pdf)
+## [Tree-Based Methods](https://justinmshea.github.io/StatisticalLearning/articles/08-Trees.html)
 
 8.1 Introduction
 
@@ -71,7 +71,7 @@ Course offered online through [Stanford ONLINE](https://lagunita.stanford.edu/co
 
 8.3 Boosting
 
-## [Support Vector Machines](https://github.com/JustinMShea/Statistical-Learning/blob/master/R/09-SVM.pdf)
+## [Support Vector Machines](https://justinmshea.github.io/StatisticalLearning/articles/09-SVM.html)
 
 9.1 Introduction
 
@@ -79,7 +79,7 @@ Course offered online through [Stanford ONLINE](https://lagunita.stanford.edu/co
 
 9.3 Non-linear Support Vector Machine.
 
-## [Unsupervised Learning](https://github.com/JustinMShea/Statistical-Learning/blob/master/R/10-Unsupervised.pdf)
+## [Unsupervised Learning](https://justinmshea.github.io/StatisticalLearning/articles/10-Unsupervised.html)
 
 10.1 Principal Components
 
@@ -90,6 +90,6 @@ Course offered online through [Stanford ONLINE](https://lagunita.stanford.edu/co
 
 ## [Statement of Accomplishment](https://github.com/JustinMShea/Statistical-Learning/blob/master/ISLR-Statement-of-Accomplishment.pdf)
 
-Of course, what really matters when learning online is not the certificate but how much one puts in to understanding the material. In this vein, I often referenced _[The Elements of Statistical Learning](http://web.stanford.edu/~hastie/ElemStatLearn/)_ to dive deeper into topics of interest. If a topic in ISLR leaves you curious for more, ESLR is an excellent compliment.
+Of course, what really matters when learning online is not the certificate but how much one puts in to understanding the material. In this vein, I often referenced _[The Elements of Statistical Learning](http://web.stanford.edu/~hastie/ElemStatLearn/)_ to dive deeper into topics of interest. If a topic in ISLR leaves you curious for more, ESLR is an excellent compliment. The Authors have generously made both texts available online.
 
 
