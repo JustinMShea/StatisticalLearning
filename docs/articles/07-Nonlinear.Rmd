@@ -1,0 +1,185 @@
+---
+title: "Moving Beyond Linearity"
+author: " "
+date: ''
+output:
+  pdf_document:
+        toc: TRUE
+  html_document: default
+---
+
+\newpage
+
+## Introduction
+
+Here we explore the use of nonlinear models using some tools in R
+
+```{r}
+library(ISLR)
+attach(Wage)
+```
+
+## Polynomials
+
+First we will use polynomials, and focus on a single predictor age:
+
+$$ y_i = \beta_0 + \beta_1x_i + \beta_2x_i^2 + \beta_3x_i^3 +...+\beta_dx_i^d + \epsilon_i $$
+
+```{r}
+wage_poly <- lm(wage ~ poly(age, 4), data = Wage)
+summary(wage_poly)
+```
+
+The `poly()` function generates a basis of *orthogonal polynomials* of the 4th order
+
+$$ y_i = \hat\beta_0 + \hat\beta_1x_0 + \hat\beta_2x_0^2 + \hat\beta_3x_0^3 + \hat\beta_4x_0^4$$
+Make a plot of the fitted polynomial function, along with the standard errors of the fit.
+
+```{r, tidy=TRUE, fig.width=7, fig.height=6}
+range(age)
+
+age_limits <- range(age)
+  age_grid <- seq(from = age_limits[1], to = age_limits[2])
+
+wage_prediction <- predict(wage_poly, newdata = list(age = age_grid), se=TRUE)
+    error_bands <- cbind(wage_prediction$fit+2*wage_prediction$se, wage_prediction$fit-2*wage_prediction$se)
+
+plot(age, wage, col="darkgrey")
+lines(age_grid, wage_prediction$fit, lwd = 2, col = "blue")
+matlines(age_grid, error_bands, col = "red", lty = 2)
+```
+
+There are other more direct ways of doing this. For example
+
+```{r}
+wage_poly_I <- lm(wage~age+I(age^2)+I(age^3)+I(age^4), data = Wage)
+summary(wage_poly_I)
+```
+
+Here `I()` is a *wrapper* function; we need it because `age^2` means something to the formula language, 
+while `I(age^2)` is protected.
+The coefficients are different to those we got before! However, the fits are the same:
+
+```{r}
+plot(fitted(wage_poly), fitted(wage_poly_I))
+```
+
+By using orthogonal polynomials in this simple way, we can separately test for each coefficient. So if we look at the summary again, we can see that the linear, quadratic and cubic terms are significant, but not the quartic.
+
+```{r}
+summary(wage_poly)
+```
+
+This only works with linear regression, and if there is a single predictor. In general we would use `anova()` as this next example demonstrates.
+
+```{r}
+wage_ed <- lm(wage ~ education, data = Wage)
+
+wage_ed_age <- lm(wage ~ education + age, data = Wage)
+
+wage_ed_age2 <- lm(wage ~ education + poly(age,2), data = Wage)
+
+wage_ed_age3 <- lm(wage ~ education + poly(age,3), data = Wage)
+
+anova(wage_ed, wage_ed_age, wage_ed_age2, wage_ed_age3)
+```
+\newpage
+
+## Polynomial logistic regression
+
+Now we fit a logistic regression model to a binary response variable, 
+constructed from `wage`. We code the big earners (`>250K`) as 1, else 0.
+
+$$Pr(y_i > 250|x_i = \frac{exp(\beta_0 + \beta_1x_i + \beta_2x_i^2 +...+\beta_dx_i^d)}{1+exp(\beta_0 + \beta_1x_i + \beta_2x_i^2 +...+\beta_dx_i^d)} $$
+
+```{r}
+binary_wage <- glm(I(wage > 250) ~ poly(age, 3), data = Wage, family = binomial)
+
+summary(binary_wage)
+```
+
+```{r, tidy=TRUE}
+binary_wage_prediction <- predict(binary_wage, list(age = age_grid), se = T)
+
+binary_error_bands <- binary_wage_prediction$fit + cbind(fit=0, lower=-2*binary_wage_prediction$se, upper=2*binary_wage_prediction$se)
+
+binary_error_bands[1:10, ]
+```
+
+We have done the computations on the logit scale. To transform we need to apply the inverse logit mapping 
+
+$$p=\frac{e^\eta}{1+e^\eta}.$$
+
+We can do this simultaneously for all three columns of `binary_error_bands`. The `matplot` function is useful.
+
+```{r, tidy=TRUE}
+prob_error_bands <- exp(binary_error_bands)/(1 + exp(binary_error_bands))
+
+matplot(age_grid, prob_error_bands, col="purple", lwd=c(2,1,1), lty=c(1,2,2), type="l", ylim=c(0,0.1))
+points(jitter(age), I(wage>250)/10, pch="|", cex=0.5)
+```
+
+\newpage
+
+## Splines
+
+Splines are more flexible than polynomials, but the idea is rather similar.
+Here we will explore cubic splines.
+
+```{r, tidy=TRUE}
+library(splines)
+wage_spline <- lm(wage ~ bs(age, knots = c(25, 40, 60)), data = Wage)
+
+plot(age, wage, col = "darkgrey")
+lines(age_grid, predict(wage_spline, list(age = age_grid)), col = "brown", lwd = 2)
+abline(v = c(25, 40, 60), lty = 2, col = "darkgreen")
+```
+
+The smoothing splines does not require knot selection, but it does have a smoothing parameter, which can conveniently be specified via the effective degrees of freedom or `df`.
+
+```{r, warning = FALSE}
+wage_smooth <- smooth.spline(age, wage, df = 16)
+plot(age, wage, col = "darkgrey")
+lines(wage_smooth, col = "red", lwd = 2)
+```
+
+Or we can use LOO cross-validation to select the smoothing parameter for us automatically:
+
+```{r, warning = FALSE}
+wage_smooth_cv <- smooth.spline(age, wage, cv = TRUE)
+plot(age, wage, col = "darkgrey")
+lines(wage_smooth_cv, col = "purple", lwd = 2)
+wage_smooth_cv
+```
+
+## Generalized Additive Models
+
+So far we have focused on fitting models with mostly single nonlinear terms.
+The `gam` package makes it easier to work with multiple nonlinear terms. In addition it knows how to plot these functions and their standard errors.
+
+```{r fig.width=10, fig.height=5, tidy=TRUE}
+library(gam)
+wage_gam <- gam(wage ~ s(age, df = 4) + s(year, df = 4) + education, data = Wage)
+par(mfrow = c(1, 3))
+plot(wage_gam, se = T, col="blue")
+```
+
+```{r fig.width=10, fig.height=5, tidy=TRUE}
+wage_gam2 <- gam(I(wage > 250) ~ s(age, df = 4) + s(year, df = 4) + education, data = Wage, family = binomial)
+plot(wage_gam2, col="brown")
+```
+
+Lets see if we need a nonlinear terms for year
+
+```{r, tidy=TRUE}
+wage_gam2a <- gam(I(wage > 250) ~ s(age, df=4) + year + education, data = Wage, family=binomial)
+anova(wage_gam2a, wage_gam2, test = "Chisq")
+```
+
+One nice feature of the `gam` package is that it knows how to plot the functions nicely, even for models fit by `lm` and `glm`.
+
+```{r fig.width=10, fig.height=5}
+par(mfrow = c(1,3))
+wage_lm <- lm(wage ~ ns(age, df=4) + ns(year, df=4) + education, data = Wage)
+plot.gam(wage_lm, se =T, col="blue")
+```

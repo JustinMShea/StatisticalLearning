@@ -1,0 +1,47 @@
+---
+title: "ISLR: Nonlinear functions quiz"
+author: "Justin M Shea"
+date: ""
+output:
+  pdf_document:
+        toc: TRUE
+  html_document: default
+---
+
+\newpage
+
+## Introduction
+
+Download the file `7.R.RData` and load it into R using  the `load` function.
+
+```{r, eval=FALSE, tidy=TRUE}
+data_address <- "https://lagunita.stanford.edu/c4x/HumanitiesSciences/StatLearning/asset/7.R.RData"
+download.file(data_address, paste0(getwd(),"/R"))
+```
+
+## 7.R.R1
+
+Load the data from the file `7.R.RData`, and plot it using `plot(x,y)`. What is the slope coefficient in a linear regression of y on x (to within 10%)?
+
+```{r}
+load(path.expand("~/R/Statistical-Learning/data/7.R.RData"))
+plot(x,y)
+```
+
+```{r}
+model_71 <- lm(y ~ x)
+
+summary(model_71)
+```
+
+\newpage
+
+## 7.R.R2
+
+For the model $y$ ~ $1 + x + x^2$, what is the coefficient of x (to within 10%)?
+
+```{r}
+model_72 <- lm(y ~ I(x) + I(x^2))
+
+summary(model_72)
+```

@@ -1,0 +1,76 @@
+---
+title: "ISLR: Bootstrap quiz"
+author: "Justin M Shea"
+date: ""
+output: pdf_document
+---
+
+Download the file `5.R.RData` and load it into R using  the `load` function.
+
+```{r, eval=FALSE, tidy=TRUE}
+data_address <- "https://lagunita.stanford.edu/c4x/HumanitiesSciences/StatLearning/asset/5.R.RData"
+download.file(data_address, paste0(getwd(),"/R"))
+```
+
+## 5.R.R1
+
+Consider the linear regression model of y on X1 and X2. What is the standard error for $\beta_1$?
+
+```{r}
+load(path.expand("~/R/Statistical-Learning/data/5.R.RData"))
+
+model_51 <- lm(y ~ X1 + X2, data = Xy)
+
+summary(model_51)
+```
+
+\newpage
+
+## 5.R.R2
+
+Next, plot the data using `matplot(Xy, type="l")`. Which of the following do you think is most likely given what you see?
+
+```{r}
+matplot(Xy, type="l")
+```
+
+\newpage
+
+## 5.R.R3
+
+Now, use the (standard) bootstrap to estimate s.e.($\hat\beta_{1}$). 
+To within 10%, what do you get?
+
+```{r, tidy=TRUE, warning=FALSE}
+beta_hat_1 <- function(data, index, formula){
+        
+               model <- lm(formula, data = data[index, ])
+        
+        summary(model)$coefficients[2,1]
+}
+
+library(boot)
+boot_model_51 <- boot(data = Xy, statistic = beta_hat_1, R = 15000, 
+                      formula = y~X1+X2, parallel = "snow", ncpus = 4)
+
+boot.ci(boot_model_51, conf = 0.90)
+
+boot_model_51
+```
+
+\newpage
+
+## 5.R.R4
+
+Finally, use the block bootstrap to estimate s.e.($\hat\beta_1$). Use blocks of 100 contiguous observations, and resample ten whole blocks with replacement then paste them together to construct each bootstrap time series. For example, one of your bootstrap resamples could be:
+
+```{r, tidy=TRUE, warning=FALSE}
+
+block_boot_model_51 <- tsboot(Xy, beta_hat_1, formula = y~X1+X2, R = 15000, 
+                              sim = "fixed", l = 100, parallel = "snow", ncpus = 4)
+
+boot.ci(block_boot_model_51, conf = 0.90)
+
+block_boot_model_51
+```
+
