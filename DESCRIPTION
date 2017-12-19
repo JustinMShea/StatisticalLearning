@@ -1,4 +1,5 @@
 Package: StatisticalLearning
+Type: Package
 Title: Contentfollowing the text "An Introduction to Statistical Learning, 
  with Applications in R".
 Version: 0.0.1
@@ -13,3 +14,5 @@ LazyData: true
 Imports: ISLR, MASS, class, boot, leaps, glmnet, splines, gam, rpart, party, tree,
  randomForest, gbm3, e1071
 Suggests: rmarkdown, microbenchmark
+VignetteBuilder: knitr
+URL: https://lagunita.stanford.edu/courses/HumanitiesSciences/StatLearning/Winter2016/about
