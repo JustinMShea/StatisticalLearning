@@ -1,0 +1,176 @@
+---
+title: "ISLR 3: Linear Regression"
+author: " "
+date: ''
+output:
+  pdf_document:
+        toc: TRUE
+  html_document: default
+---
+
+\newpage
+
+
+
+Load the following packages.
+```{r}
+library(MASS)
+library(ISLR)
+```
+
+## Simple linear regression
+Check out the `Boston` data
+```
+?Boston
+```
+```{r}
+names(Boston)
+class(Boston)
+dim(Boston)
+```
+```{r}
+summary(Boston)
+```
+Lets plot the `Boston` data
+```{r}
+plot(medv ~ lstat, data = Boston)
+```
+
+Run a linear model (`lm`) on it and print the results
+
+```{r}
+Boston_lm <- lm(medv ~ lstat, data = Boston)
+Boston_lm
+```
+
+Lets plot the linear model against a scatter plot of `medv` and `lstat`.
+
+```{r}
+plot(medv ~ lstat, data = Boston)
+abline(Boston_lm, col="red")
+```
+
+We can check the confidence intervals of our models parameters using the `confint` function.
+```{r}
+confint(Boston_lm)
+```
+
+In addition, the `predict` function is useful in making some predictions with the `Bonston_lm` model we created.
+```{r}
+predict(Boston_lm, data.frame(lstat=c(5,10,15)), interval="confidence")
+```
+
+\newpage
+
+## Multiple linear regression
+
+Regress `lstat` and `age` against `medv` of the `Boston` data set and print the `summary` diagnostics. 
+
+```{r}
+Boston_lm2 <- lm(medv ~ lstat + age, data = Boston)
+summary(Boston_lm2)
+```
+
+Use the `.` notation to regress all variables in the `Boston` data against `medv` and print the `summary` diagnostics.
+```{r}
+Boston_lm3 <- lm(medv ~., data = Boston)
+summary(Boston_lm3)
+```
+
+Lets plot the model
+```{r}
+par(mfrow=c(2,2))
+plot(Boston_lm3)
+```
+
+Use the `.` notation again to select all variables, but this time subtract `age` and `indus` before regressing against `medv`. Print the `summary` diagnostics.
+
+```{r}
+Boston_lm4 <- update(Boston_lm3,~.-age-indus)
+summary(Boston_lm4)
+```
+
+## Nonlinear terms and Interactions
+
+Multiply `lstat` by `age` and regress against `medv`:
+
+```{r}
+Boston_mult <- lm(medv ~ lstat * age, data = Boston)
+Boston_mult
+```
+
+Create a quadratic interaction using the `I` function with `lstate`:
+```{r}
+Boston_Interaction <- lm(medv ~ lstat + I(lstat^2), data = Boston)
+```
+
+Create a $4^{th}$ order polynomial wrapping `lstat` in the `poly` function, defining the degree arguments a `4`.
+```{r}
+Boston_poly <- lm(medv ~ poly(lstat, degree=4), data = Boston)
+```
+
+Plot the results of the both the `Boston_Interaction` and `Boston_poly` models.
+```{r}
+attach(Boston)
+par(mfrow=c(1,1))
+plot(medv ~ lstat, data = Boston)
+points(lstat, fitted(Boston_Interaction), col="red", pch=20)
+points(lstat, fitted(Boston_poly), col="blue", pch=20)
+```
+
+Finally, lets look at the coeffients of both:
+```{r}
+Boston_Interaction
+Boston_poly
+```
+
+## Qualitative predictors
+
+For this section, use the `Carseats` data. Lets explore:
+
+```{r, eval = FALSE}
+?Carseats
+```
+```{r}
+names(Carseats)
+summary(Carseats)
+```
+
+Run a model regressing all variables as well as two new interactive variables resulting form combining `Income:Adversting` and `Age:Price`.
+```{r}
+Carseats_lm <- lm(Sales ~. + Income:Advertising + Age:Price, data = Carseats)
+summary(Carseats_lm)
+```
+
+Call the `contrasts` function on the `ShelveLoc` variable to display a table of levels corresponding to the quality of the shelving location for the car seats at each site.
+```{r}
+contrasts(Carseats$ShelveLoc)
+```
+
+
+## Brief section writing R functions
+
+Function creating a plot which displays linear model regressin line.
+
+```{r}
+regplot <- function(x, y){
+          fit <- lm(y ~ x)
+          plot(x, y)
+          abline(fit, col="red")
+}
+
+attach(Carseats)
+regplot(Price, Sales)
+```
+
+This time, add the `...` argument to the function, which allowing one to pass arguements to functions within the function.
+```{r}
+regplot <- function(x, y, ...){
+          fit <- lm(y ~ x)
+          plot(x, y, ...)
+          abline(fit, col="red")
+}
+
+regplot(Price, Sales, xlab="Price", ylab="Sales", col="blue", pch=20)
+
+```
