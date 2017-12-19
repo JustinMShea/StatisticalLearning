@@ -1,7 +1,6 @@
 # Introduction to Statistical Learning Course
 
 
-
 ## Introduction 
 
 These pages are from the course offered through [Stanford ONLINE](https://lagunita.stanford.edu/courses/HumanitiesSciences/StatLearning/Winter2016/about) closely following the text ["An Introduction to Statistical Learning, with Applications in R"](http://www-bcf.usc.edu/~gareth/ISL/) (James, Witten, Hastie, Tibshirani - Springer 2013). Taught by Hastie & Tibshirani with guest appearances by Daniela Witten and Jerome Friedman.

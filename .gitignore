@@ -10,7 +10,7 @@
 # Output files from R CMD check
 /*.Rcheck/
 # RStudio files
-.Rproj.user/
+StatisticalLearning.Rproj
 # produced vignettes
 vignettes/*.html
 vignettes/*.pdf
@@ -22,8 +22,10 @@ vignettes/*.pdf
 # Temporary files created by R markdown
 *.utf8.md
 *.knit.md
-.Rproj.user
+# Reference test
 ISLR Sixth Printing.pdf
+# Lectures 
 /lectures
-StatisticalLearning.Rproj
+# Buildignore
 .Rbuildignore
+.Rproj.user
