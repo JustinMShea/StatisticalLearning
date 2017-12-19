@@ -1,15 +1,14 @@
 ---
 title: "ISLR 3: Linear Regression"
 author: " "
-date: " "
+date: ''
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteIndexEntry{ISLR 3: Linear Regression}
+  %\usepackage{UTF-8}
 ---
 
-\newpage
 
 
 

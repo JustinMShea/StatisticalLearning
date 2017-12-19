@@ -2,9 +2,11 @@
 title: "ISLR 4: Classification"
 author: " "
 date: ''
-output:
-  html_document:
-            toc: TRUE
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteIndexEntry{ISLR 3: Linear Regression}
+  %\usepackage{UTF-8}
 ---
 
 \newpage
