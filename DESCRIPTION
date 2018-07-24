@@ -1,6 +1,6 @@
 Package: StatisticalLearning
 Type: Package
-Title: Contentfollowing the text "An Introduction to Statistical Learning, 
+Title: Content following the text "An Introduction to Statistical Learning, 
  with Applications in R"
 Version: 0.0.1
 Authors@R: person("Justin M.", "Shea", email = "jshea@roosevelt.edu", role = c("cre"))
